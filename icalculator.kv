@@ -1,79 +1,58 @@
 #: import utils kivy.utils
 #:set size "42sp"
-#  :  import ASLabel libs.uix.components.label.AutoScaleLabel
-
-<Button>:
-    font_size: 29
-    # background_normal: ''
-    # background_color: utils.get_random_color()
-    size_hint: None, None
-    size: dp(50), dp(50)
-    background_color: 157/255,157/255,157/255,1
 
 <OrangeButton>:
     icon: "numeric-4"
-    md_bg_color:  utils.get_color_from_hex("#f1a43c") #self.initial_colors["md_bg_color"] ##f1a43c  a5a5a5
+    md_bg_color:  self.initial_colors["md_bg_color"]
     theme_icon_color: "Custom"
-    icon_color: self.initial_colors["orange"]["icon_color"]
-    on_press: print(self.ripple_scale)
-    on_release: print("GJGUGHIGGKH")
-    ripple_duration_in_fast: .2
+    ripple_duration_in_fast: .15
     ripple_duration_in_slow: 10
     ripple_alpha: 0.5
     ripple_color: 1,1,1,1
     ripple_rad_default: 150
-#    ripple_scale: 1
-#    ripple_duration_out: 10
     icon_size: size
-#    size_hint: 0.1,0.05
 
 <GrayButton@MDIconButton>:
-#    value_num: 7
-#    value_str: "gray"
     icon: "numeric-4"
     icon_size: size
     theme_icon_color: "Custom"
+
     icon_color: 0,0,0,1
     md_bg_color: utils.get_color_from_hex("#a5a5a5")
-    on_press: print("I am an <orangeButton>!!")
     ripple_duration_in_fast: .24
     ripple_duration_in_slow: 10
     ripple_alpha: 0.5
     ripple_color: 1,1,1,1
     ripple_rad_default: 150
-#    size_hint: 0.1,0.05
 
 <BlackButton@MDIconButton>:
     icon: "numeric-4"
     icon_size: size
-    md_bg_color: utils.get_color_from_hex("#333333") # #505050
-#    on_release: input_field.add_to_input(self)
+    md_bg_color: utils.get_color_from_hex("#333333")
     ripple_duration_in_fast: .24
     ripple_duration_in_slow: 10
     ripple_alpha: 0.5
     ripple_color: 1,1,1,1
     ripple_rad_default: 150
-#    size_hint: 0.1,0.05
 
 
 
-#<MDGridLayout>:
-#    height: 50
-
-<HomeScreen>
+HomeScreen:
     input: input_field
     MDBoxLayout:
         orientation: "vertical"
-        padding: "12dp"
-        Widget:
-            size_hint: 1,.2
+        padding: dp(11), dp(17), dp(11), dp(7)
+#        Widget:
+#            size_hint_y: None
+#            height: dp(8)
         FloatInput:
             id: input_field
             text: "0"
-            size_hint: 1,.2
+            _eval_text: ""
+            size_hint: 1,.27
             multiline: False
             cursor_blink: False
-            font_size: "50sp"
+            font_size: "55sp"
             halign: "right"
             cursor_color: 0,0,0,1
             foreground_color: 1,1,1,1
@@ -98,18 +77,18 @@
                 GrayButton:
                     icon: "plus-minus"
                     id: btn_plus_minus
-#                    on_press: root.callback(self)
                 GrayButton:
                     id: btn_percent
                     icon: "percent-box-outline"
 
-#                    on_press: root.callback(self)
 
                 OrangeButton:
                     icon: "division"
                     id: btn_division
-
-    #                on_press: root.callback(self)
+                    value_str: '/'
+                    on_release:
+                        self.change_colors(btn_equal,btn_plus,btn_minus,btn_multiply)
+                        input_field.add_to_input(self)
 
             MDGridLayout:
                 cols: 4
@@ -119,7 +98,6 @@
                     id: btn_7
                     value_num: 7
                     value_str: "7"
-#                    on_press: root.add_to_input(self)
                     on_release: input_field.add_to_input(self)
 
                 BlackButton:
@@ -127,7 +105,6 @@
                     id: btn_8
                     value_num: 8
                     value_str: "8"
-#                    on_press: root.callback(self)
                     on_release: input_field.add_to_input(self)
                 BlackButton:
                     id: btn_9
@@ -135,15 +112,15 @@
                     value_str: "9"
                     icon: "numeric-9"
                     on_release: input_field.add_to_input(self)
-#                    on_release: input_field.text += str(self.value_num)
-#                    on_press: root.callback(self)
-#                    on_release: root.add_to_input(self)
 
                 OrangeButton:
                     icon: "multiplication"
+                    value_str: "*"
+                    on_release:
+                        self.change_colors(btn_equal,btn_division,btn_plus,btn_minus)
+                        input_field.add_to_input(self)
                     id: btn_multiply
 
-    #                on_press: root.callback(self)
             MDGridLayout:
                 cols: 4
                 spacing: "10dp"
@@ -153,15 +130,12 @@
                     value_num: 4
                     value_str: "4"
                     on_release: input_field.add_to_input(self)
-#                    on_press: root.callback(self)
-
                 BlackButton:
                     icon: "numeric-5"
                     id: btn_5
                     value_num: 5
                     value_str: "5"
                     on_release: input_field.add_to_input(self)
-#                    on_press: root.callback(self)
                 BlackButton:
                     id: btn_6
                     icon: "numeric-6"
@@ -169,13 +143,14 @@
                     value_str: "6"
                     on_release: input_field.add_to_input(self)
 
-#                    on_press: root.callback(self)
-
                 OrangeButton:
+                    on_release:
+                        self.change_colors(btn_equal,btn_division,btn_plus,btn_multiply)
+                        input_field.add_to_input(self)
                     icon: "minus"
+                    value_str:'-'
                     id: btn_minus
 
-    #                on_press: root.callback(self)
             MDGridLayout:
                 cols: 4
                 spacing: "10dp"
@@ -185,7 +160,6 @@
                     value_num: 1
                     value_str: "1"
                     on_release: input_field.add_to_input(self)
-#                    on_press: root.callback(self)
 
                 BlackButton:
                     icon: "numeric-2"
@@ -193,7 +167,6 @@
                     value_num: 2
                     value_str: "2"
                     on_release: input_field.add_to_input(self)
-#                    on_press: root.callback(self)
                 BlackButton:
                     id: btn_3
                     icon: "numeric-3"
@@ -201,13 +174,13 @@
                     value_str: "3"
                     on_release: input_field.add_to_input(self)
 
-#                    on_press: root.callback(self)
-
                 OrangeButton:
                     icon: "plus"
+                    value_str: '+'
                     id: btn_plus
-
-    #                on_press: root.callback(self)
+                    on_release:
+                        self.change_colors(btn_equal,btn_division,btn_minus,btn_multiply)
+                        input_field.add_to_input(self)
             MDGridLayout:
                 cols: 4
                 spacing: "10dp"
@@ -217,7 +190,6 @@
                     value_num: 0
                     value_str: "0"
                     on_release: input_field.add_to_input(self)
-#                    on_press: root.callback(self)
 
 
                 BlackButton:
@@ -227,92 +199,12 @@
                     value_str: "."
                     on_release: input_field.add_to_input(self)
 
-#                    on_press: root.callback(self)
 
                 OrangeButton:
                     icon: "equal"
+                    value_str: "="
+                    on_release:
+                        self.change_colors(btn_division,btn_plus,btn_minus,btn_multiply)
+                        input_field.add_to_input(self)
                     id: btn_equal
 
-    #                on_press: root.callback(self)
-
-
-#    ripple_duration_in_fast: .24
-#    ripple_duration_in_slow: 10
-#    ripple_alpha: 0.5
-#    ripple_color: 1,1,1,1
-#    ripple_rad_default: 150
-
-
-
-
-
-#        MDStackLayout:
-#            orientation: "lr-tb"
-#            spacing: 3
-#
-#            BlackButton
-#                text: "7"
-#                id: btn_seven
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "8"
-#                id: btn_eight
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "9"
-#                id: btn_nine
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "x"
-#
-#                id: btn_multiplication
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "4"
-#                id: btn_four
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "5"
-#                id: btn_five
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "6"
-#                id: btn_six
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "-"
-#
-#                id: btn_substraction
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "1"
-#                id: btn_one
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "2"
-#                id: btn_two
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "3"
-#                id: btn_three
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "+"
-#
-#                id: btn_addition
-#                on_press: root.callback(self)
-#
-#            MDRoundFlatButton:
-#                text: "0"
-#                id: btn_zero
-#                size_hint: 0.2, 0.01
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "."
-#                id: btn_dot
-#                on_press: root.callback(self)
-#            BlackButton
-#                text: "="
-#                background_color: utils.get_random_color()
-#                id: btn_equal
-#                on_press: root.callback(self)
